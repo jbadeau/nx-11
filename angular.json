@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "projects": {
+    "hygieia": {
+      "projectType": "application",
+      "root": "apps/hygieia",
+      "sourceRoot": "apps/hygieia/src",
+      "prefix": "hygieia",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/hygieia",
+            "index": "apps/hygieia/src/index.html",
+            "main": "apps/hygieia/src/main.ts",
+            "polyfills": "apps/hygieia/src/polyfills.ts",
+            "tsConfig": "apps/hygieia/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/hygieia/src/favicon.ico",
+              "apps/hygieia/src/assets"
+            ],
+            "styles": ["apps/hygieia/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/hygieia/src/environments/environment.ts",
+                  "with": "apps/hygieia/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "hygieia:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "hygieia:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "hygieia:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/hygieia/tsconfig.app.json",
+              "apps/hygieia/tsconfig.spec.json",
+              "apps/hygieia/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/hygieia/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/hygieia"],
+          "options": {
+            "jestConfig": "apps/hygieia/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "hygieia-e2e": {
+      "root": "apps/hygieia-e2e",
+      "sourceRoot": "apps/hygieia-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/hygieia-e2e/cypress.json",
+            "tsConfig": "apps/hygieia-e2e/tsconfig.e2e.json",
+            "devServerTarget": "hygieia:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "hygieia:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/hygieia-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/hygieia-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "hygieia"
+}
